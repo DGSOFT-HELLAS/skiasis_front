@@ -7,35 +7,32 @@ export default async function checkAndRefreshToken() {
     const cookieStore = cookies();
     //get tokens:
     const accessToken = cookieStore.get('accessToken');
-    console.log({accessToken})
     const refreshToken = cookieStore.get('refreshToken');
     
     if (!accessToken && !refreshToken) {
-        return Response.json({
-            message: 'Access token or refresh token not found',
-            status: 401,
-        })
+       return {
+            success: false,
+            error: "No tokens found"
+       }
     }
 
     if(!accessToken && refreshToken) {
         //reisue access token:
-        console.log('test')
         const decoded = jwt.verify(refreshToken?.value, REFRESH_TOKEN_SECRET as string) as {clientID: string} 
-        console.log({decoded})
         if(!decoded) {
-            return Response.json({
-                error: 'Decoded token not found',
-                status: 401,
-            })
+           return {
+                success: false,
+                error: "Invalid refresh token"
+           }
         }
 
         const newAccessToken  = issueAccessToken(decoded.clientID);
-        console.log({newAccessToken})
         if(!newAccessToken) {
-            return Response.json({
-                error: 'Access token not issued',
-                status: 401,
-            })
+            return {
+                success: false,
+                error: "Failed to issue new access token"
+            
+            }
         }
         cookies().set({
             maxAge: ACCESS_TOKEN_EXPIRES_IN, 
@@ -44,6 +41,16 @@ export default async function checkAndRefreshToken() {
             httpOnly: true,
             path: "/",
           });
-
+          return {
+            success: true,
+            message: "Access token refreshed",
+            token: newAccessToken
+          }
+          
+    } else {
+        return {
+            success: true,
+            message: "no action taken"
+        }
     }
 }

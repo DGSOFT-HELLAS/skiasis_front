@@ -19,14 +19,14 @@ import { ICalendarView } from 'src/app/_types/calendar';
 const VIEW_OPTIONS = [
   {
     value: 'dayGridMonth',
-    label: 'Month',
+    label: 'Μήνας',
     icon: 'mingcute:calendar-month-line',
   },
-  { value: 'timeGridWeek', label: 'Week', icon: 'mingcute:calendar-week-line' },
-  { value: 'timeGridDay', label: 'Day', icon: 'mingcute:calendar-day-line' },
+  { value: 'timeGridWeek', label: 'Εβδομάδα', icon: 'mingcute:calendar-week-line' },
+  { value: 'timeGridDay', label: 'Μέρα', icon: 'mingcute:calendar-day-line' },
   {
     value: 'listWeek',
-    label: 'Agenda',
+    label: 'Ατζέντα',
     icon: 'fluent:calendar-agenda-24-regular',
   },
 ] as const;
@@ -93,10 +93,9 @@ export default function CalendarToolbar({
         </Stack>
 
         <Stack direction="row" alignItems="center" spacing={1}>
-          <Button size="small" color="error" variant="contained" onClick={onToday}>
-            Today
+          <Button size="small" color="secondary" variant="contained" onClick={onToday}>
+            Σήμερα
           </Button>
-
           <IconButton onClick={onOpenFilters}>
             <Iconify icon="ic:round-filter-list" />
           </IconButton>

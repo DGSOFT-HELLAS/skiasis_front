@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import { alpha } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-
 import { useSettingsContext } from 'src/app/components/settings';
 import { Button } from '@mui/material';
 import axios from 'axios';

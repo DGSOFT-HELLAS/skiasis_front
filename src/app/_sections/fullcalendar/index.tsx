@@ -17,7 +17,9 @@ import useCalendar from './hooks/use-calendar';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-
+import { start } from 'nprogress';
+import { toast } from 'react-toastify';
+import elLocale from '@fullcalendar/core/locales/el';
 interface Event {
   start: string;
   end: string;
@@ -28,33 +30,27 @@ interface Event {
   };
 }
 
-interface FetchEventsResponse {
-  data: Event[];
+
+
+const fetcher  = async (startDate: string, endDate: string): Promise<Event[]> => {
+  return await axios.post('/api/events', {
+    startDate,
+    endDate,
+  }).then(res => res.data.result)
+
 }
 
-const fetcher  = () => {
-   return axios.post<FetchEventsResponse>('/api/events')
-}
 
 export default function FullCalendarView() {
   const smUp = useResponsive('up', 'sm');
-  // const { isPending, error, data } = useQuery({
-  //   queryKey: ['repoData'],
-  //   queryFn: fetcher
-     
-  // })
-
-  useEffect(() => {
-    const handleFetch = async() => {
-      const {data} = await axios.post('/api/events', {
-        startDate: new Date().toISOString(),
-        endDate: new Date().toISOString(),
-      })
-      console.log(data)
-    }
-    handleFetch()
-  }, [])
-  const [events, setEvents] = useState([]);
+  const [event, setEvent] = useState<Event[]>([])
+  const { isPending, error, data } = useQuery({
+    queryKey: ['event'],
+    queryFn: () => fetcher('2022-01-01', '2024-12-31'),
+  
+  })
+ 
+  console.log({data})
   const openFilters = useBoolean();
   const settings = useSettingsContext();
   const {
@@ -82,12 +78,17 @@ export default function FullCalendarView() {
     //
     onClickEventInFilters,
   } = useCalendar();
+
+  const onEventClick = (info: any) => {
+    console.log(info.event.title)
+    console.log(info.event.extendedProps)
+   
+  }
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> Ραντεβού </Typography>
+      {/* <Typography variant="h4">Ραντεβού</Typography> */}
       <Card
        sx={{
-        mt: 5,
       }}>
         <StyledCalendar>
         <CalendarToolbar
@@ -102,23 +103,27 @@ export default function FullCalendarView() {
             />
           <Calendar
             weekends
-            editable
-            droppable
+            editable={false}
+            droppable={false}
             selectable
+            locale={elLocale}
             rerenderDelay={10}
             allDayMaintainDuration
-            eventResizableFromStart
+            // eventResizableFromStart
             ref={calendarRef}
             //   initialDate={date}
             //   initialView={view}
             initialView="dayGridMonth"
             dayMaxEventRows={3}
             eventDisplay="block"
-            events={events}
+            events={data}
+            eventClick={onEventClick}
             headerToolbar={false}
+          
             //   select={onSelectRange}
             //   eventClick={onClickEvent}
-            height={smUp ? 720 : 'auto'}
+            height={smUp ? 800 : 'auto'}
+            moreLinkClick={"day"}
             // eventDrop={(arg) => {
             //   onDropEvent(arg, updateEvent);
             // }}
