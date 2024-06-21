@@ -9,8 +9,8 @@ import { primaryFont } from 'src/theme/typography';
 import ProgressBar from 'src/app/components/progress-bar';
 import { MotionLazy } from 'src/app/components/animate/motion-lazy';
 import { SettingsDrawer, SettingsProvider } from 'src/app/components/settings';
+import {TanstackProviders} from 'src/app/_layouts/ReactQuery';
 // ----------------------------------------------------------------------
-
 export const viewport = {
   themeColor: '#000000',
   width: 'device-width',
@@ -40,6 +40,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en" className={primaryFont.className}>
       <body>
+            
           <ToastContainer />
           <SettingsProvider
             defaultSettings={{
@@ -50,7 +51,8 @@ export default function RootLayout({ children }: Props) {
               themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
               themeStretch: false,
             }}
-          >
+          > 
+          <TanstackProviders>
             <ThemeProvider>
               <MotionLazy>
                 <SettingsDrawer />
@@ -58,6 +60,8 @@ export default function RootLayout({ children }: Props) {
                 {children}
               </MotionLazy>
             </ThemeProvider>
+          </TanstackProviders>
+
           </SettingsProvider>
       </body>
     </html>

@@ -7,7 +7,9 @@ export default async function checkAndRefreshToken() {
     const cookieStore = cookies();
     //get tokens:
     const accessToken = cookieStore.get('accessToken');
+    console.log({accessToken})
     const refreshToken = cookieStore.get('refreshToken');
+    
     if (!accessToken && !refreshToken) {
         return Response.json({
             message: 'Access token or refresh token not found',
@@ -17,6 +19,7 @@ export default async function checkAndRefreshToken() {
 
     if(!accessToken && refreshToken) {
         //reisue access token:
+        console.log('test')
         const decoded = jwt.verify(refreshToken?.value, REFRESH_TOKEN_SECRET as string) as {clientID: string} 
         console.log({decoded})
         if(!decoded) {
@@ -27,6 +30,7 @@ export default async function checkAndRefreshToken() {
         }
 
         const newAccessToken  = issueAccessToken(decoded.clientID);
+        console.log({newAccessToken})
         if(!newAccessToken) {
             return Response.json({
                 error: 'Access token not issued',

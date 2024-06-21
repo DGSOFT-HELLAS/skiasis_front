@@ -14,8 +14,7 @@ export async function POST(request, response) {
     try {
       // Issue tokens
       const accessToken = issueAccessToken(clientID);
-      console.log({accessToken})
-      const refreshToken = issueRefreshToken();
+      const refreshToken = issueRefreshToken(clientID);
       // Return success response with tokens
       cookies().set({
         maxAge: ACCESS_TOKEN_EXPIRES_IN, 

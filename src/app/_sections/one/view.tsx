@@ -8,18 +8,19 @@ import Typography from '@mui/material/Typography';
 import { useSettingsContext } from 'src/app/components/settings';
 import { Button } from '@mui/material';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 // ----------------------------------------------------------------------
 
 export default function OneView() {
   const settings = useSettingsContext();
   const handleClick = async () => {
     try {
-      const response = await axios.post('/api/dashboard/events', {
+      const response = await axios.post('/api/events', {
         name: 'test'
       })
       console.log(response.data)
     } catch(e) {
-
+      toast.error(e.message)
     }
   }
   return (

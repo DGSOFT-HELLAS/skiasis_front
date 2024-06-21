@@ -5,21 +5,56 @@ import listPlugin from '@fullcalendar/list';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import timelinePlugin from '@fullcalendar/timeline';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { StyledCalendar } from './styles';
 import Container from '@mui/material/Container';
 import { Typography } from '@mui/material';
-import { useTheme } from '@emotion/react';
 import { useSettingsContext } from 'src/app/components/settings';
 import CalendarToolbar from './calendar-toolbar';
 import useCalendar from './hooks/use-calendar';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+
+interface Event {
+  start: string;
+  end: string;
+  title: string;
+  description: string;
+  extendedProps: {
+    [key: string]: any;
+  };
+}
+
+interface FetchEventsResponse {
+  data: Event[];
+}
+
+const fetcher  = () => {
+   return axios.post<FetchEventsResponse>('/api/events')
+}
+
 export default function FullCalendarView() {
   const smUp = useResponsive('up', 'sm');
+  // const { isPending, error, data } = useQuery({
+  //   queryKey: ['repoData'],
+  //   queryFn: fetcher
+     
+  // })
+
+  useEffect(() => {
+    const handleFetch = async() => {
+      const {data} = await axios.post('/api/events', {
+        startDate: new Date().toISOString(),
+        endDate: new Date().toISOString(),
+      })
+      console.log(data)
+    }
+    handleFetch()
+  }, [])
   const [events, setEvents] = useState([]);
-  const theme = useTheme();
   const openFilters = useBoolean();
   const settings = useSettingsContext();
   const {
@@ -49,7 +84,7 @@ export default function FullCalendarView() {
   } = useCalendar();
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> Page Five </Typography>
+      <Typography variant="h4"> Ραντεβού </Typography>
       <Card
        sx={{
         mt: 5,
