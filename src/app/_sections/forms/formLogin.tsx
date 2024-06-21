@@ -9,16 +9,12 @@ import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import { useRouter, useSearchParams } from 'src/routes/hooks';
-
+import { useRouter } from 'src/routes/hooks';
 import { useBoolean } from 'src/hooks/use-boolean';
-import { useAuthContext } from 'src/auth/hooks';
-import { PATH_AFTER_LOGIN } from 'src/config-global';
 import Iconify from 'src/app/components/iconify';
-import FormProvider, { RHFTextField } from 'src/app/components/hook-form';
+import FormProvider from 'src/app/components/hook-form';
 import TextInput from 'src/app/components/inputs/textInput';
 import Image from 'next/image';
 import {  toast } from 'react-toastify';
@@ -31,7 +27,6 @@ const LoginSchema = Yup.object().shape({
 
 
 export default function FormLogin() {
-  const { login } = useAuthContext();
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState('');
   // const searchParams = useSearchParams();

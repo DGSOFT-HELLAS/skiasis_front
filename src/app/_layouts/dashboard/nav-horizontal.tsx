@@ -3,24 +3,21 @@ import { memo } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
-
-import { useMockedUser } from 'src/hooks/use-mocked-user';
-
 import { bgBlur } from 'src/theme/css';
-
 import Scrollbar from 'src/app/components/scrollbar';
 import { NavSectionHorizontal } from 'src/app/components/nav-section';
 
 import { HEADER } from '../config-layout';
 import { useNavData } from './config-navigation';
 import HeaderShadow from '../common/header-shadow';
+import { useUser } from 'src/hooks/use-user';
 
 // ----------------------------------------------------------------------
 
 function NavHorizontal() {
   const theme = useTheme();
 
-  const { user } = useMockedUser();
+  const {user} = useUser();
 
   const navData = useNavData();
 

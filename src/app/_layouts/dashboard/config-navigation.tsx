@@ -49,7 +49,7 @@ export function useNavData() {
       // OVERVIEW
       // ----------------------------------------------------------------------
       {
-        subheader: 'overview v5.7.0',
+        subheader: 'Euroblinds Cyprus',
         items: [
           { title: 'one', path: paths.dashboard.root, icon: ICONS.dashboard },
           { title: 'calendar', path:paths.dashboard.calendar, icon: ICONS.calendar },
