@@ -4,10 +4,7 @@ import { m } from 'framer-motion';
 
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
 import { RouterLink } from 'src/routes/components';
-
-import CompactLayout from 'src/app/_layouts/compact';
 import { PageNotFoundIllustration } from 'src/assets/illustrations';
 
 import { varBounce, MotionContainer } from 'src/app/components/animate';
@@ -16,7 +13,7 @@ import { varBounce, MotionContainer } from 'src/app/components/animate';
 
 export default function NotFoundView() {
   return (
-    <CompactLayout>
+    <>
       <MotionContainer>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
@@ -44,6 +41,6 @@ export default function NotFoundView() {
           Go to Home
         </Button>
       </MotionContainer>
-    </CompactLayout>
+    </>
   );
 }

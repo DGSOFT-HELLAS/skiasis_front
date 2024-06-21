@@ -6,8 +6,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import { RouterLink } from 'src/routes/components';
-
-import CompactLayout from 'src/app/_layouts/compact';
 import { ForbiddenIllustration } from 'src/assets/illustrations';
 
 import { varBounce, MotionContainer } from 'src/app/components/animate';
@@ -16,7 +14,7 @@ import { varBounce, MotionContainer } from 'src/app/components/animate';
 
 export default function View403() {
   return (
-    <CompactLayout>
+    <>
       <MotionContainer>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
@@ -40,6 +38,6 @@ export default function View403() {
           Go to Home
         </Button>
       </MotionContainer>
-    </CompactLayout>
+    </>
   );
 }

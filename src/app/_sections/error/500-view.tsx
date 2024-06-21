@@ -1,13 +1,9 @@
 'use client';
 
 import { m } from 'framer-motion';
-
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
 import { RouterLink } from 'src/routes/components';
-
-import CompactLayout from 'src/app/_layouts/compact';
 import { SeverErrorIllustration } from 'src/assets/illustrations';
 
 import { varBounce, MotionContainer } from 'src/app/components/animate';
@@ -16,7 +12,7 @@ import { varBounce, MotionContainer } from 'src/app/components/animate';
 
 export default function Page500() {
   return (
-    <CompactLayout>
+    <>
       <MotionContainer>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
@@ -38,6 +34,6 @@ export default function Page500() {
           Go to Home
         </Button>
       </MotionContainer>
-    </CompactLayout>
+    </>
   );
 }

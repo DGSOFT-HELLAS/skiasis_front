@@ -5,16 +5,12 @@ import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
 
 import { usePathname } from 'src/routes/hooks';
-
 import { useResponsive } from 'src/hooks/use-responsive';
 import { useMockedUser } from 'src/hooks/use-mocked-user';
-
 import Logo from 'src/app/components/logo';
 import Scrollbar from 'src/app/components/scrollbar';
 import { NavSectionVertical } from 'src/app/components/nav-section';
-
 import { NAV } from '../config-layout';
-import NavUpgrade from '../common/nav-upgrade';
 import { useNavData } from './config-navigation';
 import NavToggleButton from '../common/nav-toggle-button';
 
@@ -53,17 +49,13 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
       }}
     >
       <Logo sx={{ mt: 3, ml: 4, mb: 1 }} />
-
       <NavSectionVertical
         data={navData}
         slotProps={{
           currentRole: user?.role,
         }}
       />
-
       <Box sx={{ flexGrow: 1 }} />
-
-      <NavUpgrade />
     </Scrollbar>
   );
 
@@ -75,7 +67,6 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
       }}
     >
       <NavToggleButton />
-
       {lgUp ? (
         <Stack
           sx={{
