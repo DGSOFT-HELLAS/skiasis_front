@@ -7,7 +7,6 @@ import { bgBlur } from 'src/theme/css';
 
 import Iconify from 'src/app/components/iconify';
 import { useSettingsContext } from 'src/app/components/settings';
-
 import { NAV } from '../config-layout';
 
 // ----------------------------------------------------------------------

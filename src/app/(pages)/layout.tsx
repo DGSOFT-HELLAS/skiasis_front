@@ -9,7 +9,6 @@ import { primaryFont } from 'src/theme/typography';
 import ProgressBar from 'src/app/components/progress-bar';
 import { MotionLazy } from 'src/app/components/animate/motion-lazy';
 import { SettingsDrawer, SettingsProvider } from 'src/app/components/settings';
-import AuthProvider from '../_components/authProvider';
 // ----------------------------------------------------------------------
 
 export const viewport = {
@@ -40,7 +39,6 @@ type Props = {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en" className={primaryFont.className}>
-        <AuthProvider>
       <body>
           <ToastContainer />
           <SettingsProvider
@@ -62,7 +60,6 @@ export default function RootLayout({ children }: Props) {
             </ThemeProvider>
           </SettingsProvider>
       </body>
-      </AuthProvider>
     </html>
   );
 }

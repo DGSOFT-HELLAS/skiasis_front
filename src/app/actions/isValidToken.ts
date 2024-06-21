@@ -8,7 +8,6 @@ export default async function checkAndRefreshToken() {
     //get tokens:
     const accessToken = cookieStore.get('accessToken');
     const refreshToken = cookieStore.get('refreshToken');
-    console.log({accessToken})
     if (!accessToken && !refreshToken) {
         return Response.json({
             message: 'Access token or refresh token not found',
@@ -28,7 +27,6 @@ export default async function checkAndRefreshToken() {
         }
 
         const newAccessToken  = issueAccessToken(decoded.clientID);
-        console.log({newAccessToken})
         if(!newAccessToken) {
             return Response.json({
                 error: 'Access token not issued',

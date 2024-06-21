@@ -23,6 +23,7 @@ import TextInput from 'src/app/components/inputs/textInput';
 import Image from 'next/image';
 import {  toast } from 'react-toastify';
 import axios from 'axios';
+import { setStorage } from 'src/hooks/use-local-storage';
 const LoginSchema = Yup.object().shape({
   username: Yup.string().required('Το email είναι υποχρεωτικό'),
   password: Yup.string().required('Ο κωδικός είναι υποχρεωτικός'),
@@ -55,39 +56,20 @@ export default function FormLogin() {
   } = methods;
   const values = methods.watch();
   const onSubmit = handleSubmit(async (data) => {
-    // try {
-    //   const resp = await signIn('credentials', {
-    //     email: data.username,
-    //     password: data.password,
-    //     redirect: false,
-    // })
-    // if(resp?.status === 401) {
-    //   toast.warn('Λάθος όνομα χρήστη ή κωδικός')
-    // }
-    // console.log(resp)
-    // } catch(e) {
-    //   console.log(e)
-    //   toast.warn(e.message)
-    // }
     try {
       const response = await axios.post('/api/auth/login', {
         username: data.username,
         password: data.password
       })
-      console.log(response.data)
       if(response.data.status === 200) {
+        setStorage('user', response.data.user)
         router.push('/dashboard/calendar')
         toast.success('Επιτυχής σύνδεση')
-
-      } else {
-        toast.warn(response.data.error)
-      }
+      } 
     } catch(e) {
         console.log(e)
         toast.warn(e?.response?.data?.message || e.message)
-    }  finally {
-      
-    }
+    }  
    
 
   

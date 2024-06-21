@@ -35,10 +35,10 @@ export async function POST(request, response) {
   
       return Response.json({
         status: 200,
-        data: {
-          accessToken,
-          refreshToken,
-        },
+        user: {
+          username: 'Giannis Chiout',
+          role: "admin",
+        }
       });
     } catch (e) {
       return Response.json({
