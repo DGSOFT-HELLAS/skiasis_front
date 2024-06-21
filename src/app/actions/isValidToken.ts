@@ -8,7 +8,6 @@ export default async function checkAndRefreshToken() {
     //get tokens:
     const accessToken = cookieStore.get('accessToken');
     const refreshToken = cookieStore.get('refreshToken');
-    console.log({REFRESH_TOKEN_SECRET})
     console.log({accessToken})
     if (!accessToken && !refreshToken) {
         return Response.json({
@@ -19,7 +18,7 @@ export default async function checkAndRefreshToken() {
 
     if(!accessToken && refreshToken) {
         //reisue access token:
-        const decoded = jwt.verify(refreshToken?.value, REFRESH_TOKEN_SECRET) as {clientID: string} 
+        const decoded = jwt.verify(refreshToken?.value, REFRESH_TOKEN_SECRET as string) as {clientID: string} 
         console.log({decoded})
         if(!decoded) {
             return Response.json({

@@ -17,6 +17,8 @@ import { useAuthContext } from 'src/auth/hooks';
 
 import { varHover } from 'src/app/components/animate';
 import CustomPopover, { usePopover } from 'src/app/components/custom-popover';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // ----------------------------------------------------------------------
 
@@ -39,19 +41,15 @@ const OPTIONS = [
 
 export default function AccountPopover() {
   const router = useRouter();
-
   const { user } = useMockedUser();
-
-  const { logout } = useAuthContext();
-
   const popover = usePopover();
 
   const handleLogout = async () => {
     try {
-      await logout();
-      popover.onClose();
-      router.replace('/');
+      const {data} = await axios.post("/api/auth/logout");
+      router.push("/auth/login");
     } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
       console.error(error);
     }
   };

@@ -1,9 +1,10 @@
 
 import { cookies } from 'next/headers'
+import checkAndRefreshToken from 'src/app/actions/isValidToken'
 
 export async function POST(request) {
-    const cookieStore = cookies()
-  const token = cookieStore.get('accessToken')
+
+    checkAndRefreshToken();
 
     //get cookies here from next cookies
     return Response.json({
