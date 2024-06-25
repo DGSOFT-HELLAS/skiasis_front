@@ -15,13 +15,4 @@ export function issueRefreshToken(clientID: string): string {
   return jwt.sign({clientID}, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRES_IN }); // Refresh token expires in 7 days
 }
 
-// Function to validate and decode the access token
-export function validateAccessToken(token: string): { clientID: string } | null {
-  try {
-    const decoded = jwt.verify(token, SECRET) as { clientID: string };
-    return decoded;
-  } catch (error) {
-    return null;
-  }
-}
 

@@ -1,4 +1,6 @@
 /* scrollbar */
 @import 'simplebar-react/dist/simplebar.min.css';
 
-
+.link_text {
+    font-size: 0.85rem;
+}

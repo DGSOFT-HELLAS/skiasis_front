@@ -14,9 +14,7 @@ export default function OneView() {
   const settings = useSettingsContext();
   const handleClick = async () => {
     try {
-      const response = await axios.post('/api/events', {
-        name: 'test'
-      })
+      const response = await axios.get('/api/test')
       console.log(response.data)
     } catch(e) {
       toast.error(e.message)
@@ -35,6 +33,7 @@ export default function OneView() {
           border: (theme) => `dashed 1px ${theme.palette.divider}`,
         }}
       />
+
       <div>
          <Button 
           variant="contained"

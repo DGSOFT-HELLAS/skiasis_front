@@ -34,7 +34,7 @@ export default function FormLogin() {
   const password = useBoolean();
   
   const defaultValues = {
-    username: 'demo',
+    username: 'Admin',
     password: '1234',
   };
 
@@ -56,8 +56,10 @@ export default function FormLogin() {
         username: data.username,
         password: data.password
       })
-      if(response.data.status === 200) {
-        setStorage('user', response.data.user)
+      
+      if(response.data.success) {
+        console.log(response.data?.user)
+        setStorage('user', response.data?.user)
         router.push('/dashboard/calendar')
         toast.success('Επιτυχής σύνδεση')
       } 

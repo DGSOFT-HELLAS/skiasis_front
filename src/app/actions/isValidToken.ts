@@ -1,18 +1,19 @@
 "use server";
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken';
-import { issueAccessToken, ACCESS_TOKEN_EXPIRES_IN, REFRESH_TOKEN_SECRET } from "src/utils/jsonwebtoken";
+import { issueAccessToken, ACCESS_TOKEN_EXPIRES_IN, REFRESH_TOKEN_SECRET,SECRET} from "src/utils/jsonwebtoken";
 // SERVER ACTION:
 export default async function checkAndRefreshToken() {
     const cookieStore = cookies();
     //get tokens:
     const accessToken = cookieStore.get('accessToken');
     const refreshToken = cookieStore.get('refreshToken');
-    
+
     if (!accessToken && !refreshToken) {
        return {
             success: false,
-            error: "No tokens found"
+            error: "No tokens found",
+            token: null
        }
     }
 
@@ -22,7 +23,8 @@ export default async function checkAndRefreshToken() {
         if(!decoded) {
            return {
                 success: false,
-                error: "Invalid refresh token"
+                error: "Invalid refresh token",
+                token   : null
            }
         }
 
@@ -30,7 +32,8 @@ export default async function checkAndRefreshToken() {
         if(!newAccessToken) {
             return {
                 success: false,
-                error: "Failed to issue new access token"
+                error: "Failed to issue new access token",
+                token: null
             
             }
         }
@@ -42,15 +45,28 @@ export default async function checkAndRefreshToken() {
             path: "/",
           });
           return {
+            message: "Access token reissued",
             success: true,
-            message: "Access token refreshed",
-            token: newAccessToken
+            token: newAccessToken,
+            clientID: decoded.clientID
           }
           
-    } else {
+    } 
+
+
+    if(accessToken && refreshToken) {
+        const decodeToken = jwt.verify(accessToken?.value, SECRET as string) as {clientID: string};
+        if(!decodeToken) {
+            return {
+                success: false,
+                error: "Invalid access token",
+                token: null
+            }
+        }
         return {
             success: true,
-            message: "no action taken"
+            clientID: decodeToken.clientID, 
+            token: accessToken?.value
         }
     }
 }

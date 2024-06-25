@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 
-export async function POST(request) {
+export async function POST(request: Request) {
       try {
         cookies().delete('accessToken');
         cookies().delete('refreshToken');

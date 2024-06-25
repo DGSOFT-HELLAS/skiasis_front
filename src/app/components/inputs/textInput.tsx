@@ -1,7 +1,4 @@
-import { Controller, useFormContext } from 'react-hook-form';
-
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-
 // ----------------------------------------------------------------------
 
 type Props = TextFieldProps & {
@@ -11,24 +8,18 @@ type Props = TextFieldProps & {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export default function TextInput({ name,  value, onChange, helperText, type, ...other }: Props) {
-  const { control } = useFormContext();
+export default function TextInput({error,  name,  value, onChange, helperText, type, disabled = false, ...other }: Props) {
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field, fieldState: { error } }) => (
         <TextField
+          disabled={disabled}
           fullWidth
           type={type}
           value={value}
           onChange={onChange}
           error={!!error}
-          helperText={error ? error?.message : helperText}
+          helperText={error ? error : helperText}
           {...other}
         />
-      )}
-    />
   );
 }
