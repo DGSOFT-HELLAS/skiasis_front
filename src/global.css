@@ -4,3 +4,10 @@
 .link_text {
     font-size: 0.85rem;
 }
+
+
+.form {
+   display: grid;
+   row-gap: 1rem;
+}
+

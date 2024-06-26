@@ -9,10 +9,6 @@ import {InputLabel} from '@mui/material';
 import TextInput from 'src/app/components/inputs/textInput';
 
 
-const schema = z.object({
-  SOACTIONCODE: z.string(),
-  TNAME: z.string(),
-});
 
 
 type BasicTimesAttributes = {
@@ -20,7 +16,7 @@ type BasicTimesAttributes = {
     NAME: string;
     TYPE: string;
     DATASET: string;
-    VALUE: { NAME: string, ID: string}[];
+    VALUE: { NAME: string, ID: number}[];
 
 }
 
@@ -33,7 +29,11 @@ const  fetchBasicItemsAttr = async (id: string): Promise< BasicTimesAttributes[]
   return data?.result;
 };
 
-export default function SubForm({id, setValue, values }: {id: string, setValue: any, values: any}) {
+export default function SubForm({
+  id, 
+  setValue, 
+  values 
+}: {id: string, setValue: any, values: any}) {
   const {
     status,
     fetchStatus,
@@ -62,7 +62,7 @@ export default function SubForm({id, setValue, values }: {id: string, setValue: 
             type={'text'}
             onChange={(e) => setValue(`BASICITEMATTRIBUTES[${index}]`, {
                 ID: item?.ID,
-                VALUE: e.target.value
+                VALUE: parseInt(e.target.value)
             })}           
             value={values?.BASICITEMATTRIBUTES[index]?.VALUE || ''}
           />
@@ -70,7 +70,7 @@ export default function SubForm({id, setValue, values }: {id: string, setValue: 
     } 
     if(item.TYPE === "DATASET" ) {
         return (
-            <FormControl key={index} sx={{maxHeight: "400px"}}>
+            <FormControl key={index} >
             <InputLabel id="demo-simple-select-label">{item?.NAME}</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -78,6 +78,8 @@ export default function SubForm({id, setValue, values }: {id: string, setValue: 
               value={values?.BASICITEMATTRIBUTES[index]?.VALUE || ''}
               label={item?.NAME}
               onChange={(e) => handleDataSetChange(e, index, item.ID) } 
+              MenuProps={{ PaperProps: { style: { maxHeight: 200 } } }} // Set max height here
+
             >
                {/* <Stack sx={{maxHeight: '200px'}}> */}
                {item?.VALUE.map((value, index2) => {
@@ -96,16 +98,15 @@ export default function SubForm({id, setValue, values }: {id: string, setValue: 
   console.log({values})
  
   return (
-       <div>
-              <h1>SubForm</h1>
-            <Stack spacing={1} direction={"row"} sx={{mb: 2}}>
+       <>
+            {/* <Stack spacing={1} direction={"row"} sx={{mb: 2}}>
                 <Typography variant="subtitle1">Πεδία</Typography>
                 <Typography variant="subtitle2">{attributes?.length}</Typography>
-            </Stack>
+            </Stack> */}
             <Stack spacing={2}>
             {attributes}
             </Stack>
-       </div>
+       </>
   );
 }
 

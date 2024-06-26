@@ -32,7 +32,6 @@ export async function POST(req: Request) {
     }
   } 
   if(body?.type === "getBasicItemAttr") {
-    console.log('here')
     const id = body?.id;
     try {
       const itemsAttr = await getBasicItemAttribute(clientID, id);

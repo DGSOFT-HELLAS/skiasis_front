@@ -10,14 +10,16 @@ import FormControl from '@mui/material/FormControl';
 import { InputLabel } from '@mui/material';
 import SubForm from './subForm';
 const schema = z.object({
-  BASICITEM: z.object({
-    ID: z.string(),
-    NAME: z.string(),
-  }),
+  // BASICITEM: z.object({
+  //   ID: z.string(),
+  //   NAME: z.string(),
+  // }),
+  ID: z.string(),
   BASICITEMATTRIBUTES: z.array(
     z.object({
       ID: z.number(),
-      VALUE: z.union([z.string(), z.number()]),
+      // VALUE: z.union([z.string(), z.number()]),
+      VALUE: z.number(),
     })
   ),
 });
@@ -40,7 +42,7 @@ export default function NewMeeting() {
   const methods = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      BASICITEM: { ID: '', NAME: '' },
+       ID: '', 
       BASICITEMATTRIBUTES: [{
       
       }],
@@ -69,16 +71,16 @@ export default function NewMeeting() {
   return (
     <div>
       <FormProvider {...methods}>
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <form className='form' noValidate onSubmit={handleSubmit(onSubmit)}>
           <FormControl fullWidth>
             <InputLabel id="basic-item-select">Επιλογή Πεδίου</InputLabel>
             <Select
               labelId="basic-item-select"
               id="basicItem"
               name="BASICITEM"
-              value={values.BASICITEM.ID}
+              value={values.ID}
               label="NAME"
-              onChange={(e) => setValue('BASICITEM', { ID: e.target.value, NAME: '' })}
+              onChange={(e) => setValue('ID', e.target.value)}
             >
               {basicItem?.map((item, index) => {
                 return (
@@ -89,10 +91,12 @@ export default function NewMeeting() {
               })}
             </Select>
           </FormControl>
-          <SubForm id={values.BASICITEM.ID} setValue={setValue} values={values} />
-          <Button type="submit" variant="contained">
+          <SubForm id={values.ID} setValue={setValue} values={values} />
+            <div>
+            <Button type="submit" variant="contained" sx={{display: "inline-flex"}}>
             Αποθήκευση
           </Button>
+            </div>
         </form>
       </FormProvider>
     </div>

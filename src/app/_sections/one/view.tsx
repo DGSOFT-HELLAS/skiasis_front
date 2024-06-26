@@ -15,7 +15,6 @@ export default function OneView() {
   const handleClick = async () => {
     try {
       const response = await axios.get('/api/test')
-      console.log(response.data)
     } catch(e) {
       toast.error(e.message)
     }

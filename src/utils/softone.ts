@@ -76,7 +76,6 @@ export async function getBasicItem(clientId: any) {
   }
 }
 export async function getBasicItemAttribute(clientId: any, id: string) {
-  console.log({clientId, id})
   try {
     const result = await fetch(`${process.env.SOFTONE_FULLURL}.getBasicItemAttribute`, {
       method: 'POST',
