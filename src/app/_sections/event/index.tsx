@@ -35,7 +35,6 @@ const schema = z.object({
 type EventForm = z.infer<typeof schema>;
 
 const fetcher = async (id: string): Promise<EventForm> => {
-  console.log({id})
   const { data } = await axios.get(`/api/events?id=${id}`);
   return data?.result;
 };
@@ -45,7 +44,6 @@ export default function EventPage({ id }: { id: string }) {
     queryKey: ['event'],
     queryFn: () => fetcher(id),
   });
-  console.log({data})
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Typography variant="h4"> Ραντεβού: {data?.SOACTIONCODE} </Typography>
@@ -74,7 +72,7 @@ export default function EventPage({ id }: { id: string }) {
               border: (theme) => `dashed 1px ${theme.palette.divider}`,
             }}
           >
-            <Button variant="contained">Νέα Συνάντηση</Button>
+            <Button sx={{marginBottom: 3}} variant="contained">Νέα Συνάντηση</Button>
             <  NewMeeting />
           </Box>
         </Grid>

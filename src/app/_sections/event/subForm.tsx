@@ -1,14 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { MenuItem, Stack, Typography } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import axios from 'axios';
 import {  useQuery } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import FormControl from '@mui/material/FormControl';
 import {InputLabel} from '@mui/material';
 import TextInput from 'src/app/components/inputs/textInput';
+
+
 const schema = z.object({
   SOACTIONCODE: z.string(),
   TNAME: z.string(),
@@ -20,9 +20,9 @@ type BasicTimesAttributes = {
     NAME: string;
     TYPE: string;
     DATASET: string;
-    VALUE: string[];
-}
+    VALUE: { NAME: string, ID: string}[];
 
+}
 
 
 const  fetchBasicItemsAttr = async (id: string): Promise< BasicTimesAttributes[] > => {
@@ -33,8 +33,7 @@ const  fetchBasicItemsAttr = async (id: string): Promise< BasicTimesAttributes[]
   return data?.result;
 };
 
-export default function SubForm({id, setValue, values}: {id: string, setValue: any, values: any}) {
-    
+export default function SubForm({id, setValue, values }: {id: string, setValue: any, values: any}) {
   const {
     status,
     fetchStatus,
@@ -45,33 +44,45 @@ export default function SubForm({id, setValue, values}: {id: string, setValue: a
     enabled: !!id,
   })
 
-  const attributes = basicItemAttr?.map((item:BasicTimesAttributes) => {
+
+  const handleDataSetChange = (e: SelectChangeEvent, index: number, id: string) => {
+    setValue(`BASICITEMATTRIBUTES[${index}]`, {
+        ID: id,
+        VALUE: e.target.value
+    })
+
+  }
+  const attributes = basicItemAttr?.map((item:BasicTimesAttributes, index) => {
     if(item.TYPE === "FLOAT") {
         return (
             <TextInput
+            key={index}
             name={item?.NAME}
             label={item?.NAME}
             type={'text'}
-            onChange={(e) => {}}
-            value={values?.FINALDATE}
+            onChange={(e) => setValue(`BASICITEMATTRIBUTES[${index}]`, {
+                ID: item?.ID,
+                VALUE: e.target.value
+            })}           
+            value={values?.BASICITEMATTRIBUTES[index]?.VALUE || ''}
           />
         )
     } 
     if(item.TYPE === "DATASET" ) {
         return (
-            <FormControl>
+            <FormControl key={index} sx={{maxHeight: "400px"}}>
             <InputLabel id="demo-simple-select-label">{item?.NAME}</InputLabel>
             <Select
-           
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={values?.FINALDATE}
+              value={values?.BASICITEMATTRIBUTES[index]?.VALUE || ''}
               label={item?.NAME}
-              onChange={(e: SelectChangeEvent) => {}}
+              onChange={(e) => handleDataSetChange(e, index, item.ID) } 
             >
-                {item?.VALUE.map((value, index) => {
+               {/* <Stack sx={{maxHeight: '200px'}}> */}
+               {item?.VALUE.map((value, index2) => {
                     return (
-                    <MenuItem key={index} value={value}>
+                    <MenuItem key={index2} value={value?.ID}>
                         {value?.NAME}
                     </MenuItem>
                     );
@@ -81,14 +92,16 @@ export default function SubForm({id, setValue, values}: {id: string, setValue: a
         )
     }
   })
+
+  console.log({values})
  
   return (
        <div>
               <h1>SubForm</h1>
-            <div>
+            <Stack spacing={1} direction={"row"} sx={{mb: 2}}>
                 <Typography variant="subtitle1">Πεδία</Typography>
                 <Typography variant="subtitle2">{attributes?.length}</Typography>
-            </div>
+            </Stack>
             <Stack spacing={2}>
             {attributes}
             </Stack>

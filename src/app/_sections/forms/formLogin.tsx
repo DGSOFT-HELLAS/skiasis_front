@@ -28,9 +28,6 @@ const LoginSchema = Yup.object().shape({
 
 export default function FormLogin() {
   const router = useRouter();
-  const [errorMsg, setErrorMsg] = useState('');
-  // const searchParams = useSearchParams();
-  // const returnTo = searchParams.get('returnTo');
   const password = useBoolean();
   
   const defaultValues = {
@@ -44,7 +41,6 @@ export default function FormLogin() {
   });
 
   const {
-    reset,
     handleSubmit,
     setValue,
     formState: { isSubmitting },
@@ -58,13 +54,11 @@ export default function FormLogin() {
       })
       
       if(response.data.success) {
-        console.log(response.data?.user)
         setStorage('user', response.data?.user)
         router.push('/dashboard/calendar')
         toast.success('Επιτυχής σύνδεση')
       } 
     } catch(e) {
-        console.log(e)
         toast.warn(e?.response?.data?.message || e.message)
     }  
    
@@ -90,7 +84,6 @@ export default function FormLogin() {
          name="username"
          label="Όνομα"
          type={'text'}
-        helperText="Παρακαλώ συμπληρώστε το όνομα σας"
         value={values.username}
         onChange={(event) => {
           setValue('username', event.target.value)
@@ -98,9 +91,8 @@ export default function FormLogin() {
       />
       <TextInput  
          name="password"
-         label="Password"
+         label="Κωδικός"
          type={password.value ? 'text' : 'password'}
-        helperText="Please enter a valid email address"
         value={values.password}
         onChange={(event) => setValue('password', event.target.value)}
         InputProps={{
@@ -114,9 +106,9 @@ export default function FormLogin() {
         }}
       />
     
-      <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
+      {/* <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
         Forgot password?
-      </Link>
+      </Link> */}
 
       <LoadingButton
         fullWidth
@@ -134,15 +126,6 @@ export default function FormLogin() {
   return (
     <>
       {renderHead}
-
-  
-
-      {!!errorMsg && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {errorMsg}
-        </Alert>
-      )}
-
       <FormProvider methods={methods} onSubmit={onSubmit}>
         {renderForm}
       </FormProvider>
