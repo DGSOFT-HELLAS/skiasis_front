@@ -84,7 +84,6 @@ export default function FullCalendarView() {
   } = useCalendar();
 
   const onEventClick = (info: any) => {
-    console.log(info.event.extendedProps)
     const id = info.event?.extendedProps?.id
     let event = {
       start: info.event.start,

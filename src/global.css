@@ -11,3 +11,12 @@
    row-gap: 1rem;
 }
 
+.newspec_item {
+    display: grid;
+    grid-template-columns: 50px 1fr 50px;
+}      
+
+
+.MuiInputBase-root{
+    background-color: #ffffff; 
+}

@@ -1,0 +1,32 @@
+.spec_container {
+   width: 100%;
+   margin-top: 10px;
+   display: flex;
+   flex-direction: column;
+    row-gap: 8px;
+}
+.spec_item{
+    border: 1px solid rgb(231, 231, 231);
+    border-radius: 5px;
+}
+
+.spec_item > div {
+    padding: 10px;
+
+}
+.spec_top_row{
+    display: grid;
+    grid-template-columns: 50px 1fr 50px;
+    align-items: center;
+}
+
+.spec_bottom_row {
+    padding-top: 13px;
+    background-color: rgb(245, 245, 245);
+}
+
+
+.title {
+    font-weight: 600;
+    color: #333;
+}
