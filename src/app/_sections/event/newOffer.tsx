@@ -5,12 +5,24 @@ import FormControl from '@mui/material/FormControl';
 import { InputLabel } from '@mui/material';
 import { schema, } from './_types';
 import TextInput from 'src/app/components/inputs/textInput';
-import { FormValues, BasicItemAttributes } from './_types';
+import { FormValues, BasicItemAttributes, DefaultValues } from './_types';
 import { Form, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import NumericCustomInput from 'src/app/components/numericCustomInput';
 
+
+const DEFAULT_VALUES: DefaultValues = {
+  Width: {
+    min: 300,
+    max: 3300,
+   },
+    Height: {
+      min: 359,
+      max: 3300,
+    },
+}
 
 
 
@@ -42,7 +54,6 @@ export default function NewOffer({
       resolver: zodResolver(schema),
       defaultValues: {
         MESSAGE: formData?.MESSAGE || "",
-        // ID: formData?.ID || "",
         BASICITEM: {
           ID: formData?.BASICITEM?.ID || "",
           NAME: formData?.BASICITEM?.NAME || "",
@@ -50,7 +61,7 @@ export default function NewOffer({
         BASICITEMATTRIBUTES: [...formData?.BASICITEMATTRIBUTES] || [],
       },
     });
-    const { setValue, handleSubmit, formState: {errors} } = methods;
+    const { setValue, handleSubmit, formState: {errors}, setError } = methods;
     const values = methods.watch();
 
     const {
@@ -76,7 +87,15 @@ export default function NewOffer({
       })
   
     }
-  const handleChange = (e: any, index: number, id: number) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, id: number) => {
+    if(e.target.value < 300 || e.target.value > 3300) {
+      setError(`BASICITEMATTRIBUTES[${index}].VALUE`, {
+        type: "manual",
+        message: "Λαμβάνει τιμές από 300mm μέχρι 3300mm."
+      }) 
+    } else {
+      setError(`BASICITEMATTRIBUTES[${index}].VALUE`, null)
+    }
     setValue(`BASICITEMATTRIBUTES[${index}]`, {
         ID: id,
         VALUE: parseInt(e.target.value)
@@ -85,19 +104,13 @@ export default function NewOffer({
   const attributes = basicItemAttr && basicItemAttr?.map((item:BasicItemAttributes, index) => {
     if(item.TYPE === "FLOAT") {
         return (
-            <TextInput
-            error={errors?.BASICITEMATTRIBUTES?.[index]?.VALUE?.message}
-            key={index}
-            type="number"
-            id="outlined-adornment-weight"
-            aria-describedby="outlined-weight-helper-text"
-            InputProps={{
-              endAdornment: <InputAdornment position="end">mm</InputAdornment>,
-          }}
-            name={item?.NAME}
-            label={item?.NAME}
-            onChange={(e) => handleChange(e, index, parseInt(item.ID)) }           
+          <NumericCustomInput 
             value={values?.BASICITEMATTRIBUTES[index]?.VALUE}
+            label={item?.NAME}
+            error={errors?.BASICITEMATTRIBUTES?.[index]?.VALUE?.message}
+            defaultValue={DEFAULT_VALUES?.[item.NAME]?.min || 0}
+            helperText={"Λαμβάνει τιμές από 300mm μέχρι 3300mm."}
+            onChange={(e) => handleChange(e, index, parseInt(item.ID)) }           
           />
        
         )
@@ -167,6 +180,7 @@ export default function NewOffer({
             onChange={(e) => setValue("MESSAGE", e.target.value) }           
             value={values?.MESSAGE}
           />
+         
             </Stack>
             <div>
             <Button type="submit" variant="contained" sx={{display: "inline-flex"}}>
@@ -178,3 +192,19 @@ export default function NewOffer({
     </Box>
   );
 }
+
+
+ //   <TextInput
+          //   error={errors?.BASICITEMATTRIBUTES?.[index]?.VALUE?.message}
+          //   key={index}
+          //   type="number"
+          //   id="outlined-adornment-weight"
+          //   aria-describedby="outlined-weight-helper-text"
+          //   InputProps={{
+          //     endAdornment: <InputAdornment position="end">mm</InputAdornment>,
+          // }}
+          //   name={item?.NAME}
+          //   label={item?.NAME}
+          //   onChange={(e) => handleChange(e, index, parseInt(item.ID)) }           
+          //   value={values?.BASICITEMATTRIBUTES[index]?.VALUE}
+          // />

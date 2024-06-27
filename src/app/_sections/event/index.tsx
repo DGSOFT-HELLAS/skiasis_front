@@ -9,10 +9,9 @@ import { Button } from '@mui/material';
 import NewOffer from 'src/app/_sections/event/newOffer';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import { EventForm,  BasicItem, FormValues, schema, State } from './_types';
+import { EventForm,  BasicItem, FormValues, State } from './_types';
 import { FormEvent } from './eventForm';
-import { Form, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+
 import styles from './styles.module.css';
 import { Avatar } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
@@ -163,7 +162,7 @@ export default function EventPage({ id }: { id: string }) {
             onClick={() => {
               const prevData = [...state.formData]
               //REFACTOR:
-              setState(prev => ({...prev, formData: [...prevData, {BASICITEM: {ID: '', NAME: ''}, MESSAGE: '', BASICITEMATTRIBUTES: [{ID: 0, VALUE: 0}]}]}))
+              setState(prev => ({...prev, formData: [...prevData, {BASICITEM: {ID: '', NAME: ''}, MESSAGE: '', BASICITEMATTRIBUTES: []}]}))
             }}
           >
             Προσθήκη Νέου
